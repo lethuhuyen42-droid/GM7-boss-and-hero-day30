@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero vs Boss – Grade 7 Grammar</title>
+<style>
+:root{--bg:#f6e7c8;--card:#fff8e8;--ink:#3b2a1a;--line:#8a5a2b;--ok:#2e9e4f;--bad:#d9433b;--acc:#e08a1e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a2018;--card:#3a2c20;--ink:#f6e7c8;--line:#c28a4a}}
+:root[data-theme="dark"]{--bg:#2a2018;--card:#3a2c20;--ink:#f6e7c8;--line:#c28a4a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS",Verdana,sans-serif;display:flex;justify-content:center}
+#app{width:100%;max-width:600px;padding:14px}
+.card{background:var(--card);border:3px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+h1{margin:4px 0;font-size:26px;text-align:center}
+.sub{text-align:center;margin:0 0 10px;opacity:.85}
+button{font:inherit;cursor:pointer;border:3px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:12px;font-weight:bold;font-size:18px}
+button:active{transform:scale(.97)}
+.menu button{display:block;width:100%;margin:8px 0;text-align:left}
+.menu small{display:block;font-weight:normal;font-size:14px;opacity:.8}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:18px}
+.bar{height:16px;border:2px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(0,0,0,.12)}
+.bar i{display:block;height:100%;width:100%;background:var(--bad);transition:width .3s}
+.bar.t i{background:var(--acc);transition:width .1s linear}
+.arena{display:flex;justify-content:space-between;align-items:center;font-size:52px;padding:6px 18px}
+.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.lbl{text-align:center;opacity:.8;margin:8px 0 2px;font-size:15px}
+.q{font-size:22px;text-align:center;margin:8px 0 14px;line-height:1.6}
+.q u{text-decoration-thickness:2px}.q sup{font-weight:bold;color:var(--acc);margin-left:1px}
+.opts button{display:block;width:100%;margin:8px 0;font-size:22px}
+.opts.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opts.grid button{margin:0}
+.opts .ok{background:var(--ok);color:#fff}.opts .no{background:var(--bad);color:#fff}
+input{width:100%;font:inherit;font-size:22px;padding:12px;border:3px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);text-align:center}
+.act{display:block;width:100%;margin-top:10px;background:var(--acc);color:#fff;font-size:20px}
+#fb{font-size:17px;margin-top:10px;text-align:center}
+.big{font-size:64px;text-align:center}
+.rv{border-left:6px solid var(--bad);padding:6px 10px;margin:8px 0;background:rgba(0,0,0,.06);border-radius:6px;font-size:16px}
+.g{color:var(--ok);font-weight:bold}.w{color:var(--bad);font-weight:bold}
+.st{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--line)}
+</style></head><body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),app=$("#app");
+const sh=a=>[...a].sort(()=>Math.random()-.5);
+const esc=t=>t.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=t=>t.toLowerCase().replace(/[’‘]/g,"'").replace(/n't/g," not").replace(/\s+/g," ").trim().replace(/^the /,"");
+const L=(l,t)=>`<u>${t}</u><sup>${l}</sup>`;
+const B=q=>q.replace(/___/g,"<b>___</b>");
+const STAGES=["Stage 1 · Comparatives","Stage 2 · Superlatives","Stage 3 · Present Perfect or Past Simple","Stage 4 · take / do / make / play","Stage 5 · Find the Mistake"];
+const SUB=["Choose the correct variant (6)","Fill in the correct form of the word (15)","Type the correct verb form (10)","Put the nouns into the correct column (16)","Find and correct the mistakes (5)"];
+const CMP=[["Mary is ___ than Kate.","taller","tall","the tallest"],["Tom is ___ than Bob.","shorter","short","the shortest"],["Bill reads ___ than Ben.","more","much","the most"],["Pam is ___ than Helen.","older","old","the oldest"],["Mona’s dress is ___ than Pam’s dress.","cheaper","cheap","the cheapest"],["Nick is ___ than Mike.","faster","fast","the fastest"]];
+const SUP=[["July is the ___ (hot) month of the year.",["hottest"]],["My bike is the ___ (cheap).",["cheapest"]],["This is the ___ (high) tree in this park.",["highest"]],["Peter is the ___ (good) runner at school.",["best"]],["Mona is the ___ (clever) student in our class.",["cleverest","most clever"]],["This task is the ___ (difficult) in the test.",["most difficult"]],["The traffic on this road is the ___ (dangerous).",["most dangerous"]],["It is the ___ (heavy) box here.",["heaviest"]],["My granny is the ___ (old) in our family.",["oldest"]],["This car is the ___ (expensive) here.",["most expensive"]],["Liz is the ___ (fat) girl in our street.",["fattest"]],["This is the ___ (good) translation.",["best"]],["It is the ___ (popular) film now.",["most popular"]],["I think it is the ___ (cold) day today.",["coldest"]],["It is the ___ (big) size of the dress.",["biggest"]]];
+const PP=[["Mum (make) ___ a delicious omelet already.",["has made"],"already → present perfect: has + V3."],["I (leave) ___ university 2 years ago.",["left"],"“2 years ago” → past simple."],["We (not decide) ___ what to get Mark for his birthday yet.",["have not decided"],"yet → present perfect: haven’t + V3."],["He (break) ___ the vase this morning.",["has broken","broke"],"“this morning” (the morning isn’t over) → has broken; if it is finished → broke."],["I can’t see where my umbrella is. Somebody (take) ___ it.",["has taken"],"Past action with a result now → present perfect."],["I (not see) ___ Susan recently.",["have not seen"],"recently → present perfect: haven’t + V3."],["Our team (win) ___ the match yesterday.",["won"],"yesterday → past simple."],["She (finish) ___ her homework already.",["has finished"],"already → present perfect: has + V3."],["I (visit) ___ Ha Long Bay several times.",["have visited"],"several times (up to now) → present perfect."],["___ you (ride) ___ into town on your new bike yet? (type 2 words)",["have ridden"],"yet → present perfect question: Have you ridden …?"]];
+const COL=[["the bus","take"],["photos","take"],["medicine","take"],["housework","do"],["homework","do"],["the gardening","do"],["the shopping","do"],["pottery","do"],["friend","make"],["a mess","make"],["a cake","make"],["noise","make"],["video games","play"],["chess","play"],["badminton","play"],["volleyball","play"]];
+const MIS=[[`My father ${L("A","hates")} ${L("B","drive")} motorbike ${L("C","to work")} ${L("D","in the morning")}.`,"B","hates + V-ing → hates driving."],[`I ${L("A","go")} ${L("B","to the beach")} ${L("C","with Staney")} ${L("D","and Peter")} next week.`,"A","“next week” → future plan: I am going to the beach."],[`${L("A","My")} younger sister ${L("B","like")} ${L("C","building")} beautiful sandcastles ${L("D","on")} the beach.`,"B","She → likes (present simple, he/she/it + -s)."],[`Mary ${L("A","enjoys")} ${L("B","cook")} spaghetti and ${L("C","singing")} English ${L("D","songs")}.`,"B","enjoy + V-ing → enjoys cooking."],[`He ${L("A","always hanging")} ${L("B","out")} ${L("C","with")} his friends ${L("D","on Sunday")}.`,"A","always + present simple → He always hangs out."]];
+function items(st){
+  if(st==0)return CMP.map(([q,a,b,c])=>({st,k:"c",q:B(q),a,o:sh([a,b,c]),tip:`Comparison with “than” → comparative: ${a}.`,T:15}));
+  if(st==1)return SUP.map(([q,acc])=>{const base=q.match(/\((.+?)\)/)[1],a=acc.join(" / ");return{st,k:"t",q:B(q),a,acc,T:30,tip:`${base} → ${a} `+(acc[0]=="best"?"(irregular: good → best).":acc[0].startsWith("most")?"(long adjective: the most + adj).":"(short adjective: the adj + -est).")}});
+  if(st==2)return PP.map(([q,acc,tip])=>({st,k:"t",q:B(q),a:acc.join(" / "),acc,tip,T:40}));
+  if(st==3)return COL.map(([n,v])=>({st,k:"c",grid:1,q:`<b>___</b> ${n}`,a:v,o:["take","do","make","play"],tip:`${v} ${n=="friend"?"friends":n}`,T:15}));
+  return MIS.map(([q,a,tip])=>({st,k:"c",grid:1,q,a,o:["A","B","C","D"],tip:`Mistake: ${a}. ${tip}`,T:30}));
+}
+let NAME="",G;
+function intro(){
+  app.innerHTML=`<h1>🗡️ Hero vs Boss</h1><p class="sub">Grade 7 Grammar Quest<br>5 stages · 52 questions</p>
+  <div class="card"><div class="q" style="margin:0 0 8px">What's your name, hero?</div>
+  <input id="nm" maxlength="20" placeholder="Type your name" autocomplete="off" value="${esc(NAME)}"><div id="fb"></div>
+  <button class="act" id="go">🌟 Start the Quest ➜</button></div>`;
+  const go=()=>{const v=$("#nm").value.trim();if(!v){$("#fb").textContent="Please type your name first 🙂";$("#nm").focus();return}NAME=v;start("all")};
+  $("#go").onclick=go;$("#nm").onkeydown=e=>{if(e.key==="Enter")go()};$("#nm").focus();
+}
+function start(m){
+  G={m,qs:m=="all"?[0,1,2,3,4].flatMap(s=>sh(items(s))):sh(items(+m)),i:0,ok:0,wrong:[],stat:{},t:0,done:false};show();
+}
+function show(){
+  const q=G.qs[G.i];G.left=q.T;G.done=false;
+  app.innerHTML=`<div class="card"><div class="top"><span>🧙 ${esc(NAME)}</span><span>${G.i+1}/${G.qs.length}</span><span>⭐ ${G.ok}</span></div>
+  <div class="arena"><span id="h">🧙</span><span id="b">🐉</span></div>
+  <div class="bar" title="Boss HP"><i id="bh" style="width:${100-G.ok/G.qs.length*100}%"></i></div></div>
+  <div class="card"><div class="bar t"><i id="tm"></i></div>
+  <div class="lbl">${STAGES[q.st]}</div><div class="q">${q.q}</div>
+  ${q.k=="c"?`<div class="opts ${q.grid?"grid":""}">${q.o.map(o=>`<button>${o}</button>`).join("")}</div>`:
+  `<input id="in" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type your answer"><button class="act" id="ck">Check ✔</button>`}
+  <div id="fb"></div></div>`;
+  if(q.k=="c")app.querySelectorAll(".opts button").forEach(b=>b.onclick=()=>fin(b.textContent===q.a,b.textContent,b));
+  else{$("#in").focus();$("#ck").onclick=()=>chk();$("#in").onkeydown=e=>{if(e.key==="Enter")chk()}}
+  clearInterval(G.t);
+  G.t=setInterval(()=>{G.left-=.1;$("#tm").style.width=G.left/q.T*100+"%";if(G.left<=0)q.k=="c"?fin(false,null):chk(true)},100);
+}
+function chk(timeout){if(G.done)return;const q=G.qs[G.i],v=$("#in").value;fin(!timeout&&q.acc.includes(norm(v)),timeout&&!v?null:v)}
+function fin(good,shown,btn){
+  if(G.done)return;G.done=true;clearInterval(G.t);
+  const q=G.qs[G.i],last=G.i==G.qs.length-1,s=G.stat[q.st]||(G.stat[q.st]={ok:0,n:0});s.n++;
+  if(q.k=="c")app.querySelectorAll(".opts button").forEach(b=>{b.disabled=true;if(b.textContent===q.a)b.classList.add("ok")});
+  else{$("#in").disabled=true;$("#ck").remove();$("#in").style.borderColor=good?"var(--ok)":"var(--bad)"}
+  if(good){G.ok++;s.ok++;$("#b").classList.add("shake");$("#bh").style.width=100-G.ok/G.qs.length*100+"%"}
+  else{G.wrong.push({q:q.q,you:shown,a:q.a,tip:q.tip,st:q.st});$("#h").classList.add("shake");if(btn)btn.classList.add("no")}
+  $("#fb").innerHTML=(good?"✅ <b>Correct!</b>":shown===null?"⏰ <b>Time's up!</b>":"❌ <b>Not quite.</b>")+(good?"":` Answer: <span class="g">${q.a}</span>`)+`<br>💡 ${q.tip}<button class="act next">${last?"See results":"Next ➜"}</button>`;
+  $(".next").onclick=()=>{last?end():(G.i++,show())};
+}
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&G&&G.done&&e.target===document.body){const n=$(".next");if(n)n.click()}});
+function end(){
+  const n=G.qs.length,p=G.ok/n,st=p>=.9?"⭐⭐⭐":p>=.7?"⭐⭐":p>=.5?"⭐":"";
+  const msg=p>=.9?"Amazing":p>=.7?"Great job":p>=.5?"Good try":"Keep practicing";
+  app.innerHTML=`<div class="card"><div class="big">${p>=.5?"🏆":"💪"}</div><h1>${esc(NAME)}: ${G.ok} / ${n}</h1>
+  <p class="sub">${st}<br>${msg}, ${esc(NAME)}!${p>=.7?" Boss defeated!":""}</p>
+  ${Object.keys(G.stat).map(k=>`<div class="st"><span>${STAGES[k]}</span><b>${G.stat[k].ok}/${G.stat[k].n}</b></div>`).join("")}
+  <button class="act" id="a">🔁 Play again</button></div>
+  <div class="card"><h1 style="font-size:22px">${G.wrong.length?`Review: ${G.wrong.length} mistake${G.wrong.length>1?"s":""}`:"🎉 No mistakes!"}</h1>
+  ${G.wrong.map(w=>`<div class="rv"><small>${STAGES[w.st]}</small><br>${w.q}<br>Your answer: <span class="w">${w.you===null||w.you===""?"(no answer)":esc(w.you)}</span> · Correct: <span class="g">${w.a}</span><br>💡 ${w.tip}</div>`).join("")}</div>`;
+  $("#a").onclick=()=>start("all");
+}
+intro();
+</script></body></html>
